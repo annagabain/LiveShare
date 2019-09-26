@@ -44,6 +44,7 @@ app.post '/todos', (req, res) ->
 	res.send _.last db.todos
 
 app.get '/todos', (req, res) -> res.send db.todos
+
 app.get '/todos/:id', (req, res) -> res.send db.todos.find (todo) -> todo.id == parseInt req.params.id
 
 app.put '/todos', (req, res) -> 
@@ -53,10 +54,18 @@ app.put '/todos', (req, res) ->
 	db.write()
 	res.send todo
 
+app.patch '/todos', (req, res) -> 
+	todo = db.todos.find (todo) -> todo.id == parseInt req.body.id
+	todo.text = req.body.text
+	todo.done = JSON.parse req.body.done
+	db.write()
+	res.send todo
+
 app.delete '/todos', (req, res) ->
 	count = db.todos.length
 	db.clear()
-	res.send "#{count} items was deleted"
+	res.send db.todos
+
 app.delete '/todos/:id', (req, res) ->
 	id = parseInt req.params.id
 	db.todos = db.todos.filter (todo) -> todo.id != id

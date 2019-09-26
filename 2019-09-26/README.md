@@ -29,3 +29,7 @@ nodemon js/index
 ## Quirks
 
 * Using extension db.json makes the nodemon start to loop, as the db save makes nodemon restart the server.
+
+* Couldn't make PUT work with CURL. Switched to PATCH. [Difference explanation](https://www.testingexcellence.com/difference-put-patch-requests/)
+
+* await can only be used inside functions. 
