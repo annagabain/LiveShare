@@ -15,7 +15,7 @@
 * get    /todos
 * get    /todos/1
 * post   /todos
-* put    /todos
+* patch  /todos
 * delete /todos/1
 ```
 ## Start
