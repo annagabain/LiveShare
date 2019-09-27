@@ -29,6 +29,9 @@ class Database
 		@write()
 
 	delete : (id) ->
+		db.todos = db.todos.filter (todo) -> todo.id != id
+		db.write()
+
 	demo : ->
 		@add text for text in 'buy food|fetch lamps|walk dog|feed cat|köp räksmörgåsar'.split '|'
 
@@ -56,21 +59,18 @@ app.put '/todos', (req, res) ->
 
 app.patch '/todos', (req, res) -> 
 	todo = db.todos.find (todo) -> todo.id == parseInt req.body.id
-	todo.text = req.body.text
-	todo.done = JSON.parse req.body.done
+	if req.body.text then todo.text = req.body.text
+	if req.body.done then todo.done = JSON.parse req.body.done
 	db.write()
 	res.send todo
 
 app.delete '/todos', (req, res) ->
-	count = db.todos.length
 	db.clear()
 	res.send db.todos
 
 app.delete '/todos/:id', (req, res) ->
-	id = parseInt req.params.id
-	db.todos = db.todos.filter (todo) -> todo.id != id
-	db.write()
-	res.send "The item with id=#{id} was deleted"
+	db.delete parseInt req.params.id
+	res.send "The item with id=#{req.params.id} was deleted"
 
 PORT = process.env.PORT || 3000
 app.listen PORT, -> console.log "Server started on port #{PORT}"
