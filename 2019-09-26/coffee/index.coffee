@@ -16,21 +16,21 @@ class Database
 		@clear()
 		@demo()
 
-	read : -> Object.assign this, JSON.parse fs.readFileSync PATH,'utf-8'
-	write : -> fs.writeFileSync PATH, JSON.stringify this
+	read : -> Object.assign @, JSON.parse fs.readFileSync PATH,'utf-8'
+	write : -> fs.writeFileSync PATH, JSON.stringify @
 
 	add : (text) ->
-		this.todos.push {id: ++@last, text: text, done: false}
+		@todos.push {id: ++@last, text: text, done: false}
 		@write()
 
 	clear : () ->
-		this.todos = []
-		this.last = 0
+		@last = 0
+		@todos = []
 		@write()
 
 	delete : (id) ->
-		db.todos = db.todos.filter (todo) -> todo.id != id
-		db.write()
+		@todos = @todos.filter (todo) -> todo.id != id
+		@write()
 
 	demo : ->
 		@add text for text in 'buy food|fetch lamps|walk dog|feed cat|köp räksmörgåsar'.split '|'

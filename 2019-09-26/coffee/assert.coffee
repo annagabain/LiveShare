@@ -3,7 +3,6 @@ assert = chai.assert.deepEqual
 
 ####
 # This file is making asserts about the API.
-# Start: node js/assert.js
 ####
 
 Curl = require 'curl-request'

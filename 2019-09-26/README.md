@@ -13,14 +13,16 @@
 ## Implements
 ```
 * get    /todos
-* get    /todos/1
+* get    /todos/:id
 * post   /todos
-* patch  /todos
-* delete /todos/1
+* patch  /todos/:id
+* put    /todos/:id
+* delete /todos/:id
 ```
 ## Start
 
 nodemon js/index
+node js/assert
 
 ## Original
 
@@ -30,6 +32,13 @@ nodemon js/index
 
 * Using extension db.json makes the nodemon start to loop, as the db save makes nodemon restart the server.
 
-* Couldn't make PUT work with CURL. Switched to PATCH. [Difference explanation](https://www.testingexcellence.com/difference-put-patch-requests/)
+* Had to Monky Patch Put as it was not implemented in 'curl-request'
 
 * await can only be used inside functions. 
+
+## Patch
+
+* Using PUT you must also send the data that didn't change.
+* Using PATCH, you only have to send the changed data.
+
+[Difference explanation](https://www.testingexcellence.com/difference-put-patch-requests/)
