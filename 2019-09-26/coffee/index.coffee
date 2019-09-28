@@ -7,9 +7,9 @@ app = express()
 app.use express.urlencoded { extended: false } # req.body
 
 # Todo:
-# ID   1..
-# Text "Feed the Cat"
-# Done false
+# id   1..
+# text "Feed the Cat"
+# done false
 
 class Database 
 	constructor : () -> 
@@ -29,8 +29,10 @@ class Database
 		@write()
 
 	delete : (id) ->
+		result = @todos.find (todo) -> todo.id == id
 		@todos = @todos.filter (todo) -> todo.id != id
 		@write()
+		result
 
 	demo : ->
 		@add text for text in 'buy food|fetch lamps|walk dog|feed cat|köp räksmörgåsar'.split '|'
@@ -68,9 +70,7 @@ app.delete '/todos', (req, res) ->
 	db.clear()
 	res.send db.todos
 
-app.delete '/todos/:id', (req, res) ->
-	db.delete parseInt req.params.id
-	res.send "The item with id=#{req.params.id} was deleted"
+app.delete '/todos/:id', (req, res) -> res.send db.delete parseInt req.params.id
 
 PORT = process.env.PORT || 3000
 app.listen PORT, -> console.log "Server started on port #{PORT}"
