@@ -6,7 +6,7 @@
 
 * readFileSync
 * writeFileSync
-* props: id, text, marked
+* props: id, text, done
 * POST returns the new post, including the new id.
 * No error handling
 
@@ -15,12 +15,15 @@
 * get    /todos
 * get    /todos/1
 * post   /todos
-* put    /todos
+* put    /todos/1
+* patch  /todos/1
+* delete /todos
 * delete /todos/1
 ```
 ## Start
 
 nodemon js/index
+node js/assert
 
 ## Original
 
