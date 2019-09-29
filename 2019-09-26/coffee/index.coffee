@@ -52,15 +52,15 @@ app.get '/todos', (req, res) -> res.send db.todos
 
 app.get '/todos/:id', (req, res) -> res.send db.todos.find (todo) -> todo.id == parseInt req.params.id
 
-app.put '/todos', (req, res) -> 
-	todo = db.todos.find (todo) -> todo.id == parseInt req.body.id
+app.put '/todos/:id', (req, res) -> 
+	todo = db.todos.find (todo) -> todo.id == parseInt req.params.id
 	todo.text = req.body.text
 	todo.done = JSON.parse req.body.done
 	db.write()
 	res.send todo
 
-app.patch '/todos', (req, res) -> 
-	todo = db.todos.find (todo) -> todo.id == parseInt req.body.id
+app.patch '/todos/:id', (req, res) -> 
+	todo = db.todos.find (todo) -> todo.id == parseInt req.params.id
 	if req.body.text then todo.text = req.body.text
 	if req.body.done then todo.done = JSON.parse req.body.done
 	db.write()

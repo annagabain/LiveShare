@@ -14,15 +14,15 @@ curl.put = (url) => # Monkey Patching PUT as it is missing.
 	curl.setOpt curl.libcurl.option.CUSTOMREQUEST, 'PUT'
 	curl._submit()
  
-check = (type,url,body,expect) ->
+check = (url,body,expect,type) ->
 	response = await curl.setBody(body)[type] 'localhost:3000' + url
 	assert response.body, JSON.stringify expect
 
-DELETE = (url,body,expect) ->	check 'delete',url,body,expect
-POST =   (url,body,expect) ->	check 'post',url,body,expect
-PUT =    (url,body,expect) ->	check 'put',url,body,expect
-GET =    (url,body,expect) ->	check 'get',url,body,expect
-PATCH =  (url,body,expect) ->	check 'patch',url,body,expect
+DELETE = ->	check ...arguments, 'delete'
+POST =   ->	check ...arguments, 'post'
+PUT =    ->	check ...arguments, 'put'
+GET =    ->	check ...arguments, 'get'
+PATCH =  ->	check ...arguments, 'patch'
 
 ############################ This is the specific part
 
@@ -36,10 +36,10 @@ checkAll = ->
 	await GET    '/todos/1',{},                      {id:1,text:"buy food",done:false}
 	await POST   '/todos',{text:'Cut the grass'},    {id:6,text:"Cut the grass",done:false}
 	await GET    '/todos/6',{},                      {id:6,text:"Cut the grass",done:false}
-	await PUT    '/todos',{id:6,text:"Klipp gräset",done:true}, {id:6,text:"Klipp gräset",done:true}
-	await PATCH  '/todos',{id:6,done:false},         {id:6,text:"Klipp gräset",done:false}
-	await PATCH  '/todos',{id:6},                    {id:6,text:"Klipp gräset",done:false}
-	await PUT    '/todos',{id:6,done:true},          {id:6,done:true}
+	await PUT    '/todos/6',{text:"Klipp gräset",done:true}, {id:6,text:"Klipp gräset",done:true}
+	await PATCH  '/todos/6',{done:false},            {id:6,text:"Klipp gräset",done:false}
+	await PATCH  '/todos/6',{},                      {id:6,text:"Klipp gräset",done:false}
+	await PUT    '/todos/6',{done:true},             {id:6,done:true}
 	await DELETE '/todos/6',{},                      {id:6,done:true}
 	console.log 'Ready!'
 checkAll()
