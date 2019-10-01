@@ -67,6 +67,6 @@ checkAll = ->
 	await PUT    '/todos/6',{done:true},             {id:6,done:true}
 	await DELETE '/todos/6',{},                      {id:6,done:true}
 	console.log okAsserts
-checkAll()
 
+checkAll()
 ############################
