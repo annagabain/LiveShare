@@ -45,11 +45,11 @@ node js/assert
 
 ## Postman
 
-* Hard to use
+* Powerful, but cumbersome
 * Import File
 * Don't forget to save (no tabs with red dots)
 * Strange assertion feedback
-* collection.json 645 lines
+* collection.json 645 lines (assert.coffee 12 lines)
 * test_run.json   720 lines
 * How to run
 	* todos
