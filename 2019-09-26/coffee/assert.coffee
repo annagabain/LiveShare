@@ -1,29 +1,4 @@
-chai = require 'chai'
-_ = require 'lodash'
-range = _.range 
-
-#assert = chai.assert.deepEqual
-okAsserts = ''
-assert = (a,b) ->
-	sa = JSON.stringify a
-	sb = JSON.stringify b
-	sa = sa.replace /\\/g,''
-	sb = sb.replace /\\/g,''
-	diff = ''
-	for i in range sa.length
-		if sa[i]==sb[i]
-			diff += '=' 
-		else 
-			diff += '!'
-			break
-	if diff.includes '!'
-		console.log okAsserts
-		console.log sa
-		console.log diff
-		console.log sb
-		okAsserts = ''
-	else 
-		okAsserts += '.'
+{assert, rest} = require './utilities'
 
 ####
 # This file is making asserts about the API.
@@ -66,7 +41,7 @@ checkAll = ->
 	await PATCH  '/todos/6',{},                      {id:6,text:"Klipp gräset",done:false}
 	await PUT    '/todos/6',{done:true},             {id:6,done:true}
 	await DELETE '/todos/6',{},                      {id:6,done:true}
-	console.log okAsserts
+	console.log rest()
 
 checkAll()
 ############################

@@ -6,20 +6,18 @@ express = require 'express'
 app = express()
 app.use express.urlencoded { extended: false } # req.body
 
-# Todo:
-# id   1..
-# text "Feed the Cat"
-# done false
+# todo:
+#   id   1
+#   text "Feed the Cat"
+#   done false
 
 class Database 
-	constructor : () -> 
-		@clear()
-		@demo()
+	constructor : () -> @read()
 
 	read : -> Object.assign @, JSON.parse fs.readFileSync PATH,'utf-8'
 	write : -> fs.writeFileSync PATH, JSON.stringify @
 
-	add : (text) ->
+	add : (text) -> 
 		@todos.push {id: ++@last, text: text, done: false}
 		@write()
 
@@ -34,15 +32,7 @@ class Database
 		@write()
 		result
 
-	demo : ->
-		@add text for text in 'buy food|fetch lamps|walk dog|feed cat|köp räksmörgåsar'.split '|'
-
 db = new Database()
-
-app.post '/todos/demo', (req, res) ->
-	db.clear()
-	db.demo()
-	res.send db.todos
 
 app.post '/todos', (req, res) ->
 	db.add req.body.text
@@ -59,7 +49,7 @@ app.put '/todos/:id', (req, res) ->
 	db.write()
 	res.send todo
 
-app.patch '/todos/:id', (req, res) -> 
+app.patch '/todos/:id', (req, res) ->
 	todo = db.todos.find (todo) -> todo.id == parseInt req.params.id
 	if req.body.text then todo.text = req.body.text
 	if req.body.done then todo.done = JSON.parse req.body.done
