@@ -1,34 +1,10 @@
-{assert, rest} = require './utilities'
-
-####
-# This file is making asserts about the API.
-####
-
-Curl = require 'curl-request'
-
-curl = new Curl()
-
-curl.put = (url) => # Monkey Patching PUT as it is missing.
-	curl._setUrl url
-	curl.setOpt curl.libcurl.option.CUSTOMREQUEST, 'PUT'
-	curl._submit()
- 
-check = (url,body,expect,type) ->
-	response = await curl.setBody(body)[type] 'localhost:3000' + url
-	assert JSON.parse(response.body), expect
-
-DELETE = ->	check ...arguments, 'delete'
-POST =   ->	check ...arguments, 'post'
-PUT =    ->	check ...arguments, 'put'
-GET =    ->	check ...arguments, 'get'
-PATCH =  ->	check ...arguments, 'patch'
-
-############################ This is the specific part
+{rest, DELETE,POST,GET,PUT,PATCH} = require './utilities'
 
 checkAll = ->
 	console.clear()
 	await DELETE '/todos',{},                        []
 	await POST   '/todos',{text:"buy food"},         {id:1,text:"buy food",done:false}
+	await GET    '/todos',{},                      	 [{id:1,text:"buy food",done:false}]
 	await POST   '/todos',{text:"fetch lamps"},      {id:2,text:"fetch lamps",done:false}
 	await POST   '/todos',{text:"walk dog"},         {id:3,text:"walk dog",done:false}
 	await POST   '/todos',{text:"feed cat"},         {id:4,text:"feed cat",done:false}
@@ -44,4 +20,3 @@ checkAll = ->
 	console.log rest()
 
 checkAll()
-############################
