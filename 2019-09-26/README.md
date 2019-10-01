@@ -42,3 +42,39 @@ node js/assert
 * Using PATCH, you only have to send the changed data.
 
 [Difference explanation](https://www.testingexcellence.com/difference-put-patch-requests/)
+
+## Postman
+
+* Hard to use
+* Import File
+* Don't forget to save (no tabs with red dots)
+* Strange assertion feedback
+* collection.json 645 lines
+* test_run.json   720 lines
+* How to run
+	* todos
+	* triangle
+	* Run
+	* scroll down
+	* Run todos
+
+## Postman test definition
+```
+pm.test("patch todos/6", function () {
+    pm.expect(pm.response.json()).to.deep.equal({id:6,text:"Klipp grässet",done:false});
+});
+```
+## Postman test result
+```
+FAIL patch todos/6 | AssertionError: expected { Object (id, text, ...) } to deeply equal { Object (id, text, ...) }
+```
+## My test definition
+```
+await PATCH  '/todos/6',{},                      {id:6,text:"Klipp grässet",done:false}
+```
+## My test result
+```
+{"id":6,"text":"Klipp gräset","done":false}
+==========================!
+{"id":6,"text":"Klipp grässet","done":false}
+```

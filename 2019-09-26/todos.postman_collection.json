@@ -1,0 +1,645 @@
+{
+	"info": {
+		"_postman_id": "57d86088-3242-44a1-a289-890ca3350894",
+		"name": "todos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "clear",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "86d5bf6d-4dd1-4682-941b-edf4eed1243f",
+						"exec": [
+							"pm.test(\"clear\", function () {\r",
+							"    pm.expect(pm.response.json()).to.deep.equal([]);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3000/todos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buy food",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1986651c-cd54-45a6-9dae-6f37f2955349",
+						"exec": [
+							"pm.test(\"post buy food\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:1,text:\"buy food\",done:false});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "buy food",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6c84569d-6320-4b64-8700-679f7a2c7733",
+						"exec": [
+							"pm.test(\"get todos\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal([{id:1,text:\"buy food\",done:false}]);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:3000/todos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch lamps",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "13974310-c2a3-425d-a875-3261a7539f67",
+						"exec": [
+							"pm.test(\"fetch lamps\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:2,text:\"fetch lamps\",done:false});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "fetch lamps",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "walk dog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "039765e8-7a7e-4147-9395-7cb03532d1a4",
+						"exec": [
+							"pm.test(\"walk dog\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:3,text:\"walk dog\",done:false});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "walk dog",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "feed cat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "786e88cd-6df7-4438-b771-1687c482860e",
+						"exec": [
+							"pm.test(\"feed cat\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:4,text:\"feed cat\",done:false});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "feed cat",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "köp räksmörgåsar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0535918-a615-479d-9a8c-9ddb27711c56",
+						"exec": [
+							"pm.test(\"köp räksmörgåsar\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:5,text:\"köp räksmörgåsar\",done:false});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "köp räksmörgåsar",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get todos/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c4b8511c-7898-4d71-99ce-f89786fe64e3",
+						"exec": [
+							"pm.test(\"get todos/1\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:1,text:\"buy food\",done:false});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:3000/todos/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cut the grass",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b2d89a63-c0cf-4773-9dcd-19e0cadf093a",
+						"exec": [
+							"pm.test(\"Cut the grass\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:6,text:\"Cut the grass\",done:false});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "Cut the grass",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todos",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get todos/6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "11931c7f-474b-45a1-a20b-c8a7c18e1494",
+						"exec": [
+							"pm.test(\"get todos/6\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:6,text:\"Cut the grass\",done:false});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/todos/6",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put todos/6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c428e738-dfee-408a-87bd-8c4fa1ef8a7d",
+						"exec": [
+							"pm.test(\"put todos/6\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:6,text:\"Klipp gräset\",done:true});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "Klipp gräset",
+							"type": "text"
+						},
+						{
+							"key": "done",
+							"value": "true",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todos/6",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch todos/6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0400e7d-f869-4ced-9070-13a0d4b74d05",
+						"exec": [
+							"pm.test(\"patch todos/6\", function () {",
+							"    pm.expect(pm.response.json()).to.deep.equal({id:6,text:\"Klipp gräset\",done:false});",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "done",
+							"value": "false",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todos/6",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c52114ee-2a18-4f35-a320-74fcd9243730",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "12d1fb64-5f7a-4883-a7d5-4abd0d85c24e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
