@@ -51,8 +51,8 @@ app.put '/todos/:id', (req, res) ->
 
 app.patch '/todos/:id', (req, res) ->
 	todo = db.todos.find (todo) -> todo.id == parseInt req.params.id
-	if req.body.text then todo.text = req.body.text
-	if req.body.done then todo.done = JSON.parse req.body.done
+	todo.text = req.body.text || todo.text
+	todo.done = JSON.parse req.body.done || todo.done
 	db.write()
 	res.send todo
 
