@@ -1,5 +1,29 @@
 chai = require 'chai'
-assert = chai.assert.deepEqual
+_ = require 'lodash'
+range = _.range 
+
+#assert = chai.assert.deepEqual
+okAsserts = ''
+assert = (a,b) ->
+	sa = JSON.stringify a
+	sb = JSON.stringify b
+	sa = sa.replace /\\/g,''
+	sb = sb.replace /\\/g,''
+	diff = ''
+	for i in range sa.length
+		if sa[i]==sb[i]
+			diff += '=' 
+		else 
+			diff += '!'
+			break
+	if diff.includes '!'
+		console.log okAsserts
+		console.log sa
+		console.log diff
+		console.log sb
+		okAsserts = ''
+	else 
+		okAsserts += '.'
 
 ####
 # This file is making asserts about the API.
@@ -16,7 +40,7 @@ curl.put = (url) => # Monkey Patching PUT as it is missing.
  
 check = (url,body,expect,type) ->
 	response = await curl.setBody(body)[type] 'localhost:3000' + url
-	assert response.body, JSON.stringify expect
+	assert JSON.parse(response.body), expect
 
 DELETE = ->	check ...arguments, 'delete'
 POST =   ->	check ...arguments, 'post'
@@ -27,6 +51,7 @@ PATCH =  ->	check ...arguments, 'patch'
 ############################ This is the specific part
 
 checkAll = ->
+	console.clear()
 	await DELETE '/todos',{},                        []
 	await POST   '/todos',{text:"buy food"},         {id:1,text:"buy food",done:false}
 	await POST   '/todos',{text:"fetch lamps"},      {id:2,text:"fetch lamps",done:false}
@@ -41,7 +66,7 @@ checkAll = ->
 	await PATCH  '/todos/6',{},                      {id:6,text:"Klipp gräset",done:false}
 	await PUT    '/todos/6',{done:true},             {id:6,done:true}
 	await DELETE '/todos/6',{},                      {id:6,done:true}
-	console.log 'Ready!'
+	console.log okAsserts
 checkAll()
 
 ############################
