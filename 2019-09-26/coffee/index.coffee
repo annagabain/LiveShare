@@ -45,7 +45,7 @@ class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 		@write()
 		res.send todo
 
-	sendError404 : (req,res) ->	res.status(404).send {error:404, message:"id #{req.params.id} does not exist"}
+	sendError404 : (req,res) ->	res.status(404).send {error:404, message:"id does not exist", params:req.params, body:req.body}
 
 db = new Database()
 

@@ -16,9 +16,9 @@ checkAll = ->
 	await PATCH  '/todos/6',{done:false},            {id:"6", text:"Klipp gräset", done:false}
 	await PATCH  '/todos/6',{},                      {id:"6", text:"Klipp gräset", done:false}
 	await DELETE '/todos/6',{},                      {id:"6", text:"Klipp gräset", done:false}
-	await DELETE '/todos/99',{},                     {error:404, message:"id 99 does not exist"}
-	await GET    '/todos/99',{},                     {error:404, message:"id 99 does not exist"}
-	await PATCH  '/todos/99',{},                     {error:404, message:"id 99 does not exist"}
+	await DELETE '/todos/99',{},                     {error:404, message:"id does not exist", params:{id:"99"}, body:{}}
+	await GET    '/todos/99',{},                     {error:404, message:"id does not exist", params:{id:"99"}, body:{}}
+	await PATCH  '/todos/99',{text:'hip', done:true},{error:404, message:"id does not exist", params:{id:"99"}, body:{text:'hip', done:'true'}}
 	console.log rest()
 
 checkAll()
