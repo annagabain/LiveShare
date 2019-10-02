@@ -6,10 +6,7 @@ express = require 'express'
 app = express()
 app.use express.urlencoded { extended: false } # req.body
 
-# todo:
-#   id   1
-#   text "Feed the Cat"
-#   done false
+# todo = {id:1, text:"Feed the Cat", done:false}
 
 class Database 
 	constructor : () -> @read()
