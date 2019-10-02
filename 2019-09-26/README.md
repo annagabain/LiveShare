@@ -6,17 +6,16 @@
 
 * readFileSync
 * writeFileSync
-* props: id, text, marked
+* props: id, text, done
 * POST returns the new post, including the new id.
 * No error handling
 
 ## Implements
 ```
+* post   /todos
 * get    /todos
 * get    /todos/:id
-* post   /todos
 * patch  /todos/:id
-* put    /todos/:id
 * delete /todos/:id
 ```
 ## Start
@@ -32,7 +31,7 @@ node js/assert
 
 * Using extension db.json makes the nodemon start to loop, as the db save makes nodemon restart the server.
 
-* Had to Monky Patch Put as it was not implemented in 'curl-request'
+* PUT is not implemented in 'curl-request'
 
 * await can only be used inside functions. 
 
@@ -72,7 +71,7 @@ FAIL patch todos/6 | AssertionError: expected { Object (id, text, ...) } to deep
 ```
 ## My test definition
 ```
-await PATCH  '/todos/6',{},                      {id:6,text:"Klipp grässet",done:false}
+await PATCH '/todos/6', {}, {id:6,text:"Klipp grässet",done:false}
 ```
 ## My test result
 ```
