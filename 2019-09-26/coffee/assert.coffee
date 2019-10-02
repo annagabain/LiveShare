@@ -4,6 +4,9 @@ checkAll = ->
 	console.clear()
 	await DELETE '/todos',{},                        []
 	await POST   '/todos',{text:"buy food"},         {id:"1",text:"buy food",done:false}
+	await DELETE '/todos/99',{},                     {"error":404,"message":"id 99 does not exist"}
+	await GET    '/todos/99',{},                     {"error":404,"message":"id 99 does not exist"}
+	await PATCH  '/todos/99',{},                     {"error":404,"message":"id 99 does not exist"}
 	await GET    '/todos',{},                      	 [{id:"1",text:"buy food",done:false}]
 	await POST   '/todos',{text:"fetch lamps"},      {id:"2",text:"fetch lamps",done:false}
 	await POST   '/todos',{text:"walk dog"},         {id:"3",text:"walk dog",done:false}
