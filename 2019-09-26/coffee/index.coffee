@@ -13,8 +13,7 @@ class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 	write : -> writeFileSync PATH, JSON.stringify @
 
 	post1 : (req,res) -> 
-		body = req.body
-		@todos.push {id: "#{++@last}", text: body.text, done: false}
+		@todos.push {id: "#{++@last}", text: req.body.text, done: false}
 		@write()
 		res.send last @todos
 
@@ -22,9 +21,10 @@ class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 	get1 : (req,res) -> res.send @todos.find (todo) -> todo.id == req.params.id
 
 	patch1 : (req,res) ->
+		body = req.body
 		todo = @todos.find (todo) -> todo.id == req.params.id
-		if req.body.text then todo.text = req.body.text
-		if req.body.done then todo.done = JSON.parse req.body.done
+		if body.text then todo.text = body.text
+		if body.done then todo.done = JSON.parse body.done
 		@write()
 		res.send todo
 
