@@ -17,14 +17,17 @@ class Database
 	read : -> Object.assign @, JSON.parse fs.readFileSync PATH,'utf-8'
 	write : -> fs.writeFileSync PATH, JSON.stringify @
 
-	add : (text) -> 
-		@todos.push {id: ++@last, text: text, done: false}
+	add : (body) -> 
+		todo = {id: ++@last, text: body.text, done: false}
+		@todos.push todo
 		@write()
+		todo
 
-	clear : () ->
+	clear : ->
 		@last = 0
 		@todos = []
 		@write()
+		@todos
 
 	delete : (id) ->
 		result = @todos.find (todo) -> todo.id == id
@@ -32,35 +35,30 @@ class Database
 		@write()
 		result
 
+	update : (id,body) ->
+		todo = @todos.find (todo) -> todo.id == id
+		todo.text = body.text
+		todo.done = JSON.parse body.done
+		@write()
+		todo
+
+	patch : (id,body) ->
+		todo = @todos.find (todo) -> todo.id == id
+		todo.text = body.text || todo.text
+		todo.done = JSON.parse body.done || todo.done
+		@write()
+		todo
+
 db = new Database()
 
-app.post '/todos', (req, res) ->
-	db.add req.body.text
-	res.send _.last db.todos
-
-app.get '/todos', (req, res) -> res.send db.todos
-
-app.get '/todos/:id', (req, res) -> res.send db.todos.find (todo) -> todo.id == parseInt req.params.id
-
-app.put '/todos/:id', (req, res) -> 
-	todo = db.todos.find (todo) -> todo.id == parseInt req.params.id
-	todo.text = req.body.text
-	todo.done = JSON.parse req.body.done
-	db.write()
-	res.send todo
-
-app.patch '/todos/:id', (req, res) ->
-	todo = db.todos.find (todo) -> todo.id == parseInt req.params.id
-	todo.text = req.body.text || todo.text
-	todo.done = JSON.parse req.body.done || todo.done
-	db.write()
-	res.send todo
-
-app.delete '/todos', (req, res) ->
-	db.clear()
-	res.send db.todos
-
+app.post   '/todos',     (req, res) -> res.send db.add req.body
+app.get    '/todos',     (req, res) -> res.send db.todos
+app.get    '/todos/:id', (req, res) -> res.send db.todos.find (todo) -> todo.id == parseInt req.params.id
+app.delete '/todos',     (req, res) -> res.send db.clear()
 app.delete '/todos/:id', (req, res) -> res.send db.delete parseInt req.params.id
+app.put    '/todos/:id', (req, res) -> res.send db.update parseInt(req.params.id), req.body
+app.patch  '/todos/:id', (req, res) -> res.send db.patch  parseInt(req.params.id), req.body
+
 
 PORT = process.env.PORT || 3000
 app.listen PORT, -> console.log "Server started on port #{PORT}"
