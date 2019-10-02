@@ -21,12 +21,12 @@ class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 	get  : (req,res) -> res.send @todos
 	get1 : (req,res) -> 
 		todo = @todos.find (todo) -> todo.id == req.params.id
-		if not todo then return @sendError res, 404, "id #{req.params.id} does not exist"
+		if not todo then return @sendError404 req, res
 		res.send todo
 
 	patch1 : (req,res) ->
 		todo = @todos.find (todo) -> todo.id == req.params.id
-		if not todo then return @sendError res, 404, "id #{req.params.id} does not exist"
+		if not todo then return @sendError404 req, res
 		if req.body.text then todo.text = req.body.text
 		if req.body.done then todo.done = JSON.parse req.body.done
 		@write()
@@ -40,14 +40,14 @@ class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 
 	delete1 : (req,res) ->
 		todo   = @todos.find   (todo) -> todo.id == req.params.id
-		if not todo then return @sendError res, 404, "id #{req.params.id} does not exist"
+		if not todo then return @sendError404 req, res
 		@todos = @todos.filter (todo) -> todo.id != req.params.id
 		@write()
 		res.send todo
 
-	sendError : (res,nr,message) ->
-		res.status = nr
-		res.send {error: nr, message}
+	sendError404 : (req,res) ->
+		res.status = 404
+		res.send {error:404, message:"id #{req.params.id} does not exist"}
 
 db = new Database()
 
