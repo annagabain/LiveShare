@@ -41,8 +41,8 @@ app.post   '/todos',     (req, res) -> res.send db.add req.body
 app.get    '/todos',     (req, res) -> res.send db.todos
 app.get    '/todos/:id', (req, res) -> res.send db.todos.find (todo) -> todo.id == req.params.id
 app.patch  '/todos/:id', (req, res) -> res.send db.patch  req.params.id, req.body
-app.delete '/todos',     (req, res) -> res.send db.clear()
 app.delete '/todos/:id', (req, res) -> res.send db.delete req.params.id
+app.delete '/todos',     (req, res) -> res.send db.clear()
 
 PORT = process.env.PORT || 3000
 app.listen PORT, -> console.log "Server started on port #{PORT}"
