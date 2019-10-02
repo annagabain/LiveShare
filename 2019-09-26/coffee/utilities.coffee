@@ -36,6 +36,7 @@ curl.put = (url) => # Monkey Patching PUT as it is missing.
  
 check = (url,body,expect,type) ->
 	response = await curl.setBody(body)[type] 'localhost:3000' + url
+	#console.log type, expect
 	assert JSON.parse(response.body), expect
 
 DELETE = ->	check ...arguments, 'delete'

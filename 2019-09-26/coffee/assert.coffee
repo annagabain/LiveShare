@@ -15,8 +15,7 @@ checkAll = ->
 	await PUT    '/todos/6',{text:"Klipp gräset",done:true}, {id:6,text:"Klipp gräset",done:true}
 	await PATCH  '/todos/6',{done:false},            {id:6,text:"Klipp gräset",done:false}
 	await PATCH  '/todos/6',{},                      {id:6,text:"Klipp gräset",done:false}
-	await PUT    '/todos/6',{done:true},             {id:6,done:true}
-	await DELETE '/todos/6',{},                      {id:6,done:true}
+	await DELETE '/todos/6',{},                      {id:6,text:"Klipp gräset",done:false}
 	console.log rest()
 
 checkAll()

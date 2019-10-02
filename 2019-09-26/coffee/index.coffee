@@ -32,17 +32,11 @@ class Database
 		@write()
 		result
 
-	update : (id,body) ->
-		todo = @todos.find (todo) -> todo.id == id
-		todo.text = body.text
-		todo.done = JSON.parse body.done
-		@write()
-		todo
-
+	update : (id,body) -> @patch id,body
 	patch : (id,body) ->
 		todo = @todos.find (todo) -> todo.id == id
-		todo.text = body.text || todo.text
-		todo.done = JSON.parse body.done || todo.done
+		if body.text then todo.text = body.text
+		if body.done then todo.done = JSON.parse body.done
 		@write()
 		todo
 
