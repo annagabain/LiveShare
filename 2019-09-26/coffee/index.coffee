@@ -12,7 +12,7 @@ class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 	write : -> writeFileSync @path, JSON.stringify @
 
 	add : (body) -> 
-		@todos.push {id: (++@last).toString(), text: body.text, done: false}
+		@todos.push {id: "#{++@last}", text: body.text, done: false}
 		@write()
 		last @todos
 
@@ -23,10 +23,10 @@ class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 		@todos
 
 	delete : (id) ->
-		result = @todos.find (todo) -> todo.id == id
+		todo = @todos.find (todo) -> todo.id == id
 		@todos = @todos.filter (todo) -> todo.id != id
 		@write()
-		result
+		todo
 
 	patch : (id,body) ->
 		todo = @todos.find (todo) -> todo.id == id
