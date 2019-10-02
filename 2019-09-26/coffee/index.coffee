@@ -1,5 +1,5 @@
-fs = require 'fs'
-_ = require 'lodash'
+{readFileSync, writeFileSync} = require 'fs'
+{last} = require 'lodash'
 
 express = require 'express'
 app = express()
@@ -8,13 +8,13 @@ app.use express.urlencoded { extended: false } # req.body
 class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 	constructor : (@path) -> @read()
 
-	read : -> Object.assign @, JSON.parse fs.readFileSync @path,'utf-8'
-	write : -> fs.writeFileSync @path, JSON.stringify @
+	read : -> Object.assign @, JSON.parse readFileSync @path,'utf-8'
+	write : -> writeFileSync @path, JSON.stringify @
 
 	add : (body) -> 
 		@todos.push {id: (++@last).toString(), text: body.text, done: false}
 		@write()
-		_.last @todos
+		last @todos
 
 	clear : ->
 		@last = 0
