@@ -51,6 +51,8 @@ node js/assert
 * Strange assertion feedback
 * collection.json 645 lines (assert.coffee 12 lines)
 * test_run.json   720 lines
+* Start Postman Console to see errors.
+* Make sure Server is running.
 * How to run
 	* todos
 	* triangle
