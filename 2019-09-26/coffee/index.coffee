@@ -1,48 +1,53 @@
 {readFileSync, writeFileSync} = require 'fs'
 {last} = require 'lodash'
+PATH = 'db.txt'
 
 express = require 'express'
 app = express()
 app.use express.urlencoded { extended: false } # req.body
 
 class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
-	constructor : (@path) -> @read()
+	constructor : -> @read()
 
-	read : -> Object.assign @, JSON.parse readFileSync @path,'utf-8'
-	write : -> writeFileSync @path, JSON.stringify @
+	read : -> Object.assign @, JSON.parse readFileSync PATH,'utf-8'
+	write : -> writeFileSync PATH, JSON.stringify @
 
-	add : (body) -> 
+	post1 : (req,res) -> 
+		body = req.body
 		@todos.push {id: "#{++@last}", text: body.text, done: false}
 		@write()
-		last @todos
+		res.send last @todos
 
-	clear : ->
+	get  : (req,res) -> res.send @todos
+	get1 : (req,res) -> res.send @todos.find (todo) -> todo.id == req.params.id
+
+	patch1 : (req,res) ->
+		todo = @todos.find (todo) -> todo.id == req.params.id
+		if req.body.text then todo.text = req.body.text
+		if req.body.done then todo.done = JSON.parse req.body.done
+		@write()
+		res.send todo
+
+	delete : (req,res) ->
 		@last = 0
 		@todos = []
 		@write()
-		@todos
+		res.send @todos
 
-	delete : (id) ->
-		todo = @todos.find (todo) -> todo.id == id
-		@todos = @todos.filter (todo) -> todo.id != id
+	delete1 : (req,res) ->
+		todo   = @todos.find   (todo) -> todo.id == req.params.id
+		@todos = @todos.filter (todo) -> todo.id != req.params.id
 		@write()
-		todo
+		res.send todo
 
-	patch : (id,body) ->
-		todo = @todos.find (todo) -> todo.id == id
-		if body.text then todo.text = body.text
-		if body.done then todo.done = JSON.parse body.done
-		@write()
-		todo
+db = new Database()
 
-db = new Database 'db.txt'
-
-app.post   '/todos',     (req, res) -> res.send db.add req.body
-app.get    '/todos',     (req, res) -> res.send db.todos
-app.get    '/todos/:id', (req, res) -> res.send db.todos.find (todo) -> todo.id == req.params.id
-app.patch  '/todos/:id', (req, res) -> res.send db.patch  req.params.id, req.body
-app.delete '/todos/:id', (req, res) -> res.send db.delete req.params.id
-app.delete '/todos',     (req, res) -> res.send db.clear()
+app.post   '/todos',     (req, res) -> db.post1   req,res 
+app.get    '/todos',     (req, res) -> db.get     req,res 
+app.get    '/todos/:id', (req, res) -> db.get1    req,res 
+app.patch  '/todos/:id', (req, res) -> db.patch1  req,res 
+app.delete '/todos/:id', (req, res) -> db.delete1 req,res 
+app.delete '/todos',     (req, res) -> db.delete  req,res 
 
 PORT = process.env.PORT || 3000
 app.listen PORT, -> console.log "Server started on port #{PORT}"
