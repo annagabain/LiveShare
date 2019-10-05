@@ -1,29 +1,28 @@
 chai = require 'chai'
 _ = require 'lodash'
+chalk = require 'chalk'
+{ diffChars } = require 'diff'
+
+chalkDiff = (a,b) =>
+	result = diffChars(a,b).map (part) =>
+		v = part.value
+		s = chalk.rgb(180, 180, 180) v		
+		if part.added then s = chalk.green v
+		if part.removed then s = chalk.red v
+		s
+	chalk.white result.join ''
+
 #assert = chai.assert.deepEqual
-okAsserts = ''
 assert = (a,b) ->
 	sa = JSON.stringify a
 	sb = JSON.stringify b
 	sa = sa.replace /\\/g,''
 	sb = sb.replace /\\/g,''
-	diff = ''
-	for ch,i in sa
-		if sa[i]==sb[i]
-			diff += '=' # same character
-		else 
-			diff += '!' # different character
-			break
-	if diff.includes '!' # failed assert
-		console.log okAsserts
-		console.log sa
-		console.log diff
-		console.log sb
-		okAsserts = ''
-	else 
-		okAsserts += '.' # ok assert
 
-rest = -> okAsserts
+	if sa == sb 
+		process.stderr.write '.'
+	else
+		console.log '\n' + chalkDiff sa,sb
 
 Curl = require 'curl-request'
 
@@ -40,4 +39,4 @@ GET =    ->	check ...arguments, 'get'
 PATCH =  ->	check ...arguments, 'patch'
 DELETE = ->	check ...arguments, 'delete'
 
-module.exports = {assert,rest, POST,GET,PATCH,DELETE}
+module.exports = {assert,POST,GET,PATCH,DELETE}

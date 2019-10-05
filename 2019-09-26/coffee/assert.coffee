@@ -1,4 +1,4 @@
-{rest, POST,GET,PATCH,DELETE} = require './utilities'
+{POST,GET,PATCH,DELETE} = require './utilities'
 
 checkAll = ->
 	console.clear()
@@ -19,6 +19,5 @@ checkAll = ->
 	await GET    '/todos/99',{},                     {error:404,message:"Unknown id",params:{id:"99"},body:{}}
 	await PATCH  '/todos/99',{},                     {error:404,message:"Unknown id",params:{id:"99"},body:{}}
 	await DELETE '/todos/99',{},                     {error:404,message:"Unknown id",params:{id:"99"},body:{}}
-	console.log rest()
 
 checkAll()
