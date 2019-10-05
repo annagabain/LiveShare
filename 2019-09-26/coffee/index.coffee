@@ -18,11 +18,15 @@ class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 		res.send last @todos
 
 	get  : (req,res) -> res.send @todos
-	get1 : (req,res) -> res.send @todos.find (todo) -> todo.id == req.params.id
+	get1 : (req,res) -> 
+		todo = @todos.find (todo) -> todo.id == req.params.id
+		if not todo then return @sendError404 req,res 
+		res.send todo
 
 	patch1 : (req,res) ->
 		body = req.body
 		todo = @todos.find (todo) -> todo.id == req.params.id
+		if not todo then return @sendError404 req,res 
 		if body.text then todo.text = body.text
 		if body.done then todo.done = JSON.parse body.done
 		@write()
@@ -35,13 +39,17 @@ class Database   # todo = {id:"1", text:"Feed the Cat", done:false}
 		res.send @todos
 
 	delete1 : (req,res) ->
-		todo   = @todos.find   (todo) -> todo.id == req.params.id
+		todo   = @todos.find (todo) -> todo.id == req.params.id
+		if not todo then return @sendError404 req,res 
 		@todos = @todos.filter (todo) -> todo.id != req.params.id
 		@write()
 		res.send todo
 
+	sendError404 : (req,res) -> res.status(404).send({error:404, message:'Unknown id', params:req.params, body:req.body})
+
 db = new Database()
 
+# todo = {id:"1", text:"Feed the Cat", done:false}
 app.post   '/todos',     (req, res) -> db.post1   req,res 
 app.get    '/todos',     (req, res) -> db.get     req,res 
 app.get    '/todos/:id', (req, res) -> db.get1    req,res 

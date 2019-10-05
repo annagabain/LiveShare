@@ -16,6 +16,9 @@ checkAll = ->
 	await PATCH  '/todos/6',{done:false},            {id:"6",text:"Klipp gräset",done:false}
 	await PATCH  '/todos/6',{},                      {id:"6",text:"Klipp gräset",done:false}
 	await DELETE '/todos/6',{},                      {id:"6",text:"Klipp gräset",done:false}
+	await GET    '/todos/99',{},                     {error:404,message:"Unknown id",params:{id:"99"},body:{}}
+	await PATCH  '/todos/99',{},                     {error:404,message:"Unknown id",params:{id:"99"},body:{}}
+	await DELETE '/todos/99',{},                     {error:404,message:"Unknown id",params:{id:"99"},body:{}}
 	console.log rest()
 
 checkAll()

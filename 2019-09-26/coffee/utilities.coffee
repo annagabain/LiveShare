@@ -32,6 +32,7 @@ curl = new Curl()
 check = (url,body,expect,type) ->
 	response = await curl.setBody(body)[type] 'localhost:3000' + url
 	#console.log type, expect
+	#console.log 'body',response.body
 	assert JSON.parse(response.body), expect
 
 POST =   ->	check ...arguments, 'post'
