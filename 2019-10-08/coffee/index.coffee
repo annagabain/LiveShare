@@ -10,7 +10,9 @@ render = renderable () ->
 
 calc = (cmd) ->
 	if cmd == '+' then stack.push stack.pop() + stack.pop()
-	else stack.push parseFloat cmd
+	else 
+		nr = parseFloat cmd
+		if not isNaN nr then stack.push nr
 
 onkeyup = (evt) =>
 	if evt.key == 'Enter'
