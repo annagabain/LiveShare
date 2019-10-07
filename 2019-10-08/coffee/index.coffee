@@ -1,12 +1,14 @@
 {div, h1, renderable, input} = teacup
 
+STYLE1 = 'font-family:Courier New;font-size:30px'
+
 stack = []
 
 render = renderable () ->
-	div style:'font-family:Courier New;font-size:30px', ->
+	div style:STYLE1, ->
 		for item in stack
 			h1 item
-		input id:'x', type:"text", name:"nr", onkeyup:onkeyup, style:'font-family:Courier New;font-size:30px'
+		input id:'x', type:"text", name:"nr", onkeyup:onkeyup, style:STYLE1
 
 calc = (cmd) ->
 	if cmd == '+' then stack.push stack.pop() + stack.pop()
