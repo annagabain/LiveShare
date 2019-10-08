@@ -25,20 +25,41 @@ onkeyup = (evt) =>
 
 root.innerHTML = render()
 
-exec = (cmds) ->
+exec = (expected, cmds) ->
 	stack = []
 	calc cmd for cmd in cmds.split ' '
-	stack
+	assert expected, stack, cmds
 
-assert [5], exec '2 3 +'
-assert [7], exec '2 1 4 + +'
-assert [9], exec '4 5 +'
-assert [20], exec '4 5 *'
-assert [0.8], exec '4 5 /'
-assert [-1], exec '4 5 -'
-assert [-23], exec '23 chs'
-assert [0.2], exec '5 1/x'
-assert [0.7071067811865475], exec '45 sin'
-assert [1,2,3,4], exec '1 2 3 4 5 drop'
-assert [1,2,4,3], exec '1 2 3 4 swap'
+exec [5], '2 3 +'
+exec [7], '2 1 4 + +'
+exec [7], '2 1 + 4 +'
+exec [9], '4 5 +'
+exec [20], '4 5 *'
+exec [0.8], '4 5 /'
+exec [-1], '4 5 -'
+exec [-23], '23 chs'
+exec [23], '-23 chs'
+exec [0.2], '5 1/x'
+exec [25], '5 x^2'
+exec [5], '25 sqrt'
+exec [0.7071067811865475], '45 sin'
+exec [1,2,3,4], '1 2 3 4 5 drop'
+exec [1,2,4,3], '1 2 3 4 swap'
+
+exec [1000], '3 10^x'
+exec [3], '1000 log'
+
+exec [6.907755278982137], '1000 ln'
+exec [999.9999999999998], '6.907755278982137 exp'
+
+exec [9], '3 2 y^x'
+exec [8], '2 3 y^x'
+exec [2], '-2 abs'
+exec [2], '2 abs'
+exec [9.42477796076938], 'pi pi pi + +'
+exec [9.869604401089358], 'pi pi *'
+exec [7.3890560989306495], 'e 2 y^x'
+exec [5], '3 4 pyth' # hypothenuse
+exec [13], '5 12 pyth' # hypothenuse 25+144 = 169 = 13*13
+
 assertReady()

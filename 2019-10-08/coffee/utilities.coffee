@@ -11,7 +11,7 @@ chalkDiff = (a,b,c1,c2,c3) =>
 		s + part.value
 	result.join ''
 
-assert = (b,a) ->
+assert = (b,a,message) ->
 	sa = JSON.stringify a
 	sb = JSON.stringify b
 	sa = sa.replace /\\/g,''
