@@ -2,75 +2,98 @@
 
 stack = []
 
-misc = {}
-misc['drop'] = -> stack.pop()
-misc['swap'] = -> 
+par0 = {}
+par0['drop'] = -> stack.pop()
+par0['pi'] = -> stack.push Math.PI
+par0['e'] = -> stack.push Math.E
+par0['swap'] = -> 
 	a = stack.pop()
 	b = stack.pop()
 	stack.push a
 	stack.push b
 
-unary = {}
-unary['chs'] = (x) -> -x
-unary['1/x'] = (x) -> 1/x
-unary['sin'] = (x) -> Math.sin x / 180 * Math.PI
+par1 = {}
+par1['abs'] = (x) -> Math.abs x
+par1['x^2'] = (x) -> x * x
+par1['10^x'] = (x) -> 10 ** x
+par1['log'] = (x) -> Math.log10 x
+par1['exp'] = (x) -> Math.exp x
+par1['ln'] = (x) -> Math.log x
+par1['sqrt'] = (x) -> Math.sqrt x
+par1['chs'] = (x) -> -x
+par1['1/x'] = (x) -> 1/x
+par1['sin'] = (x) -> Math.sin x / 180 * Math.PI
 
-binary = {}
-binary['+'] = (x,y) -> x+y
-binary['*'] = (x,y) -> x*y
-binary['-'] = (x,y) -> x-y
-binary['/'] = (x,y) -> x/y
+par2 = {}
+par2['+'] = (x,y) -> y + x
+par2['*'] = (x,y) -> y * x
+par2['-'] = (x,y) -> y - x
+par2['/'] = (x,y) -> y / x
+par2['y^x'] = (x,y) -> y ** x
+par2['pyth'] = (x,y) -> Math.sqrt x * x + y * y
 
-render = renderable () ->
+render = renderable ->
 	div style:'font-family:Courier New;font-size:30px', ->
-		div _.keys(misc).join ' '
-		div _.keys(unary).join ' '
-		div _.keys(binary).join ' '
+		div _.keys(par0).join ' '
+		div _.keys(par1).join ' '
+		div _.keys(par2).join ' '
 		for item in stack
 			h1 item
 		input id:'x', type:"text", name:"nr", onkeyup:onkeyup, style:'font-family:Courier New;font-size:30px'
 
-op1 = (f) ->
-	x = stack.pop()
-	stack.push f x
-
-op2 = (f) ->
-	x = stack.pop()
-	y = stack.pop()
-	stack.push f y,x
-
 calc = (cmd) ->
-	if cmd in _.keys misc   then return misc[cmd]()
-	if cmd in _.keys unary  then return op1 unary[cmd]
-	if cmd in _.keys binary then return op2 binary[cmd]
-	nr = parseFloat cmd
-	if not isNaN nr then stack.push nr
+	if cmd in _.keys par0 then par0[cmd]()
+	else if cmd in _.keys par1 then stack.push par1[cmd] stack.pop()
+	else if cmd in _.keys par2 then stack.push par2[cmd] stack.pop(), stack.pop()
+	else
+		nr = parseFloat cmd
+		if not isNaN nr then stack.push nr
 
-onkeyup = (evt) => 
-	if evt.key == 'Enter' 
+onkeyup = (evt) =>
+	if evt.key == 'Enter'
 		if evt.target.value == '' then stack.push _.last stack
-		else calc cmd for cmd in evt.target.value.split ' '				
+		else calc cmd for cmd in evt.target.value.split ' '
 		evt.target.value = ''
 		root.innerHTML = render()
 		x.focus()
 
 root.innerHTML = render()
 
-exec = (cmds) ->
+exec = (expected, cmds) ->
 	stack = []
 	calc cmd for cmd in cmds.split ' '
-	stack
+	assert expected, stack, cmds
 
-assert [5], exec '2 3 +'
-assert [7], exec '2 1 4 + +'
-assert [9], exec '4 5 +'
-assert [20], exec '4 5 *'
-assert [0.8], exec '4 5 /'
-assert [-1], exec '4 5 -'
-assert [-23], exec '23 chs'
-assert [0.2], exec '5 1/x'
-assert [0.7071067811865475], exec '45 sin'
-assert [1,2,3,4], exec '1 2 3 4 5 drop'
-assert [1,2,4,3], exec '1 2 3 4 swap'
+exec [5], '2 3 +'
+exec [7], '2 1 4 + +'
+exec [7], '2 1 + 4 +'
+exec [9], '4 5 +'
+exec [20], '4 5 *'
+exec [0.8], '4 5 /'
+exec [-1], '4 5 -'
+exec [-23], '23 chs'
+exec [23], '-23 chs'
+exec [0.2], '5 1/x'
+exec [25], '5 x^2'
+exec [5], '25 sqrt'
+exec [0.7071067811865475], '45 sin'
+exec [1,2,3,4], '1 2 3 4 5 drop'
+exec [1,2,4,3], '1 2 3 4 swap'
+
+exec [1000], '3 10^x'
+exec [3], '1000 log'
+
+exec [6.907755278982137], '1000 ln'
+exec [999.9999999999998], '6.907755278982137 exp'
+
+exec [9], '3 2 y^x'
+exec [8], '2 3 y^x'
+exec [2], '-2 abs'
+exec [2], '2 abs'
+exec [9.42477796076938], 'pi pi pi + +'
+exec [9.869604401089358], 'pi pi *'
+exec [7.3890560989306495], 'e 2 y^x'
+exec [5], '3 4 pyth' # hypothenuse
+exec [13], '5 12 pyth' # hypothenuse 25+144 = 169 = 13*13
 
 assertReady()

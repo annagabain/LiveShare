@@ -2,16 +2,21 @@
 
 okAsserts = ''
 
-chalkDiff = (a,b) =>
+showDiff = (a,b) =>
 
-	result = Diff.diffChars(a,b).map (part) =>
-		s = '\x1b[33m'
-		if part.added   then s = '\x1b[31m'
-		if part.removed then s = '\x1b[32m'
-		s + part.value
-	result.join ''
+	p = a.length
+	for i in _.range a.length
+		if a[i] != b[i]
+			p = i
+			break
 
-assert = (b,a) ->
+	ta = '\x1b[33m' + a.slice 0,p
+	tb = '\x1b[33m' + b.slice 0,p
+	ta += '\x1b[32m' + a.slice p
+	tb += '\x1b[31m' + b.slice p
+	ta + '\n' + tb
+
+assert = (a,b,message = '') ->
 	sa = JSON.stringify a
 	sb = JSON.stringify b
 	sa = sa.replace /\\/g,''
@@ -20,7 +25,7 @@ assert = (b,a) ->
 	if sa == sb 
 		okAsserts += '.'
 	else
-		console.log okAsserts + '\n' + chalkDiff sa,sb
+		console.log okAsserts + '\n' + message + '\n' + showDiff sa,sb
 		okAsserts = ''
 
 assertReady = -> console.log okAsserts
