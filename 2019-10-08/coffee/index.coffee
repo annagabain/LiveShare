@@ -3,33 +3,30 @@
 stack = []
 
 par0 = {}
-par0['drop'] = -> stack.pop()
-par0['pi'] = -> stack.push Math.PI
-par0['e'] = -> stack.push Math.E
-par0['swap'] = -> 
-	a = stack.pop()
-	b = stack.pop()
-	stack.push a
-	stack.push b
-
 par1 = {}
-par1['abs'] = (x) -> Math.abs x
-par1['x^2'] = (x) -> x * x
-par1['10^x'] = (x) -> 10 ** x
-par1['log'] = (x) -> Math.log10 x
-par1['exp'] = (x) -> Math.exp x
-par1['ln'] = (x) -> Math.log x
-par1['sqrt'] = (x) -> Math.sqrt x
-par1['chs'] = (x) -> -x
-par1['1/x'] = (x) -> 1/x
-par1['sin'] = (x) -> Math.sin x / 180 * Math.PI
-
 par2 = {}
-par2['+'] = (x,y) -> y + x
-par2['*'] = (x,y) -> y * x
-par2['-'] = (x,y) -> y - x
-par2['/'] = (x,y) -> y / x
-par2['y^x'] = (x,y) -> y ** x
+
+par0['drop'] = -> stack.pop()
+par0['pi']   = -> stack.push Math.PI
+par0['e']    = -> stack.push Math.E
+par0['swap'] = -> stack.push stack.pop(), stack.pop() 
+
+par1['abs']  = (x) -> Math.abs x
+par1['x^2']  = (x) -> x * x
+par1['10^x'] = (x) -> 10 ** x
+par1['log']  = (x) -> Math.log10 x
+par1['exp']  = (x) -> Math.exp x
+par1['ln']   = (x) -> Math.log x
+par1['sqrt'] = (x) -> Math.sqrt x
+par1['chs']  = (x) -> -x
+par1['1/x']  = (x) -> 1/x
+par1['sin']  = (x) -> Math.sin x / 180 * Math.PI
+
+par2['+']    = (x,y) -> y + x
+par2['*']    = (x,y) -> y * x
+par2['-']    = (x,y) -> y - x
+par2['/']    = (x,y) -> y / x
+par2['y^x']  = (x,y) -> y ** x
 par2['pyth'] = (x,y) -> Math.sqrt x * x + y * y
 
 render = renderable ->
