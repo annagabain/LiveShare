@@ -57,9 +57,9 @@ onkeyup = (evt) =>
 root.innerHTML = render()
 
 exec = (expected, cmds) ->
-	stack = []
 	calc cmd for cmd in cmds.split ' '
 	assert expected, stack, cmds
+	stack = []
 
 exec [5], '2 3 +'
 exec [7], '2 1 4 + +'
