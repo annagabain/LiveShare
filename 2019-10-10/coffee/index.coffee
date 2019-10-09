@@ -72,25 +72,11 @@ data = """
 26	Wattmätare
 """
 
-db = {}
-for row in data.split '\n'
-	[box,item] = row.split '\t'
-	db[box] = db[box] || []
-	db[box].push item
-
 render = renderable ->
 	input onkeyup:onkeyup, style:STYLE
 	div id:'lst', style:STYLE
 
 onkeyup = (evt) => showData evt.target.value
-
-showData = (keyword) ->
-	result = []
-	for box of db
-		for word in db[box]
-			if word.toLowerCase().includes keyword then result.push word + ' ' + box
-	result.sort()
-	lst.innerHTML = result.join '<br>'
 
 root.innerHTML = render()
 showData ''
